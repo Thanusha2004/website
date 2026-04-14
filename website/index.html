@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+/* Button */
+button {
+  padding: 15px 30px;
+  font-size: 20px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(45deg, #ff4d6d, #ff758c);
+  color: white;
+  cursor: pointer;
+  margin-top: 40px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Slideshow */
+.slideshow {
+  display: none;
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  height: 500px ;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Dark overlay */
+.slideshow::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.35);
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Slides */
+.slide {
+  position: absolute;
+  top: 0;      /* Fixed alignment */
+  left: 0;     /* Fixed alignment */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1s ease, transform 3s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+/* Messages */
+.message {
+  position: absolute;
+  width: 100%;
+  bottom: 40px;
+  left: 0;
+  font-size: 20px;
+  padding: 10px;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  display: none;
+}
+
+.message1 {
+  position: absolute;
+  width: 100%;
+  bottom: 120px;
+  left: 0;
+  font-size: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  display: none;
+}
+
+.message2 {
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+  left: 0;
+  font-size: 32px;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  display: none;
+}
+
+/* Floating emojis */
+.floating {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.float-item {
+  position: absolute;
+  animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh); opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h2 id="titleText">Click Here ❤️</h2>
+<button id="startButton" onclick="startLove()">Start</button>
+
+<div class="floating" id="floating"></div>
+
+<div class="slideshow" id="slideshow">
+  <img src="Image1.jpg" class="slide">
+  <img src="Image2.jpg" class="slide">
+  <img src="Image3.jpg" class="slide">
+  <img src="Image4.jpg" class="slide">
+  <img src="Image5.jpg" class="slide">
+  <img src="Image6.jpg" class="slide">
+  <img src="Image7.jpg" class="slide">
+  <img src="Image8.jpg" class="slide">
+
+  <div class="message" id="message1"></div>
+</div>
+
+<div class="message1" id="message2"></div>
+<div class="message2" id="message3"></div>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let currentSlide = 0;
+
+// Start everything
+function startLove() {
+  document.getElementById("startButton").style.display = "none";
+  document.getElementById("titleText").style.display = "none";
+  
+  document.getElementById("slideshow").style.display = "block";
+  document.getElementById("bgMusic").play();
+
+  startSlideshow();
+
+  setTimeout(() => {
+    typeMessage("message1","Happy Sinhala And Tamil New Year Cohooty Manika 🥰♥️" , 60, () => {
+      setTimeout(() => {
+        typeMessage("message2", "May this year bless us with more love, more memories, and more moments together. You are my happiness, my peace, and my everything", 60);
+        setTimeout(() => {
+          typeMessage("message3", "Lv u chooty manika ❤️ Forever and Ever 💋", 60);
+        }, 1000);
+      }, 1500);
+    });
+  }, 2000);
+
+  startFloating();
+}
+
+// Slideshow
+function startSlideshow() {
+  const slides = document.querySelectorAll(".slide");
+  slides[currentSlide].classList.add("active");
+
+  setInterval(() => {
+    slides[currentSlide].classList.remove("active");
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add("active");
+  }, 2500);
+}
+
+// Typing effect
+function typeMessage(id, text, speed, callback) {
+  const el = document.getElementById(id);
+  el.style.display = "block";
+  el.innerHTML = "";
+
+  let i = 0;
+
+  function typing() {
+    if (i < text.length) {
+      el.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    } else if (callback) {
+      callback();
+    }
+  }
+  typing();
+}
+
+// Floating emojis
+function startFloating() {
+  const container = document.getElementById("floating");
+
+  setInterval(() => {
+    const item = document.createElement("div");
+    item.classList.add("float-item");
+
+    const emojis = ["💖", "❤️", "💋", "😘", "🥰"];
+    item.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+
+    item.style.left = Math.random() * 100 + "vw";
+    item.style.fontSize = (20 + Math.random() * 30) + "px";
+
+    container.appendChild(item);
+
+    setTimeout(() => item.remove(), 5000);
+  }, 300);
+}
+</script>
+
+</body>
+</html>
